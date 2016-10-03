@@ -1,0 +1,32 @@
+{
+  "name": "basic-template",
+  "version": "1.0.0",
+  "description": "Начальный шаблон для проекта",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asyrtmach/Basic-Template.git"
+  },
+  "author": "Artem Syrtmach <asyrtmach@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asyrtmach/Basic-Template/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "browser-sync": "^2.13.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "gulp-watch": "^4.3.8",
+    "gulp-webserver": "^0.9.1",
+    "main-bower-files": "^2.13.1",
+    "pump": "^1.0.1"
+  }
+}

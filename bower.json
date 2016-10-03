@@ -1,0 +1,28 @@
+{
+  "name": "basic-template",
+  "authors": [
+    "Artem Syrtmach <asyrtmach@gmail.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "https://github.com/asyrtmach/Basic-Tpl",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fancyBox": "^2.1.5",
+    "retina.js": "^1.3.0",
+    "jquery.nicescroll": "nicescroll#^3.6.8",
+    "wow": "^1.1.2",
+    "bootstrap": "^3.3.6",
+    "jquery.inputmask": "^3.3.3"
+  },
+  "devDependencies": {
+    "modernizr": "^3.3.1"
+  }
+}

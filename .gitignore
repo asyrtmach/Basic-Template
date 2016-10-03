@@ -1,0 +1,4 @@
+# Ignore Files
+bower_components
+node_modules
+.idea
