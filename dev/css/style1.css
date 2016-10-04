@@ -1,19 +1,17 @@
 @import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic);
 
 body {
-	/*background: #aaa;
 	font-family: "PT Sans", Tahoma, sans-serif;
-	font-size: 1em;
-	line-height: 1.4;
 	color: #313131;
 	min-height: 100%;
-	position: relative*/
+	position: relative
 }
 h1, h2, h3, h4{
-	/*font-weight: normal;*/
-	/*text-shadow:1px 1px 1px rgba(0,0,0,0.5);*/
+	font-weight: normal;
+	text-shadow:1px 1px 1px rgba(0,0,0,0.5);
 	}
-/*h1{ font-size:2.1em; line-height:normal;}
+
+h1{ font-size:2.1em; line-height:normal;}
 h2{ font-size:1.8em; line-height:normal;}
 h3{ font-size:1.6em; line-height:normal;}
 h4{ font-size:1.4em; line-height:normal;}
@@ -35,26 +33,28 @@ img {
 }
 textarea {
 	resize: vertical
-}*/
+}
 
 /* outline */
 a:active,
-a:focus,
-button:active,
-button:focus ,
-.btn:active,
-.btn:focus {
+a:focus{
   outline: none !important;
-  -webkit-user-select: none !important;
+}
+.row div[class*=col] {
+	border:1px dashed #777777;
 }
 /* Шаблон */
 #wrap {
-width: 980px;
-	/*	margin: 0 auto;
+	/*
+	margin: 0 auto;
 	position: relative;
-	padding-bottom: 30px*/
-	border:1px solid #333;
+	padding-bottom: 30px
+	*/
 }
-.row div[class*=col] {
-	border:1px solid #333;
+#content{
+	background-color: #f0f0f0;
+}
+header,
+footer{
+	background-color: #f0f0f0;
 }
