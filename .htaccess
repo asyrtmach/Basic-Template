@@ -4,6 +4,5 @@ Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^(.*)/$ /index.php?page=$1  [L,QSA]
 
-# добавить слеш
- RewriteCond %{REQUEST_FILENAME} !-f
- RewriteRule .*[^/]$ /$0/ [L,R=301]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .*[^/]$ /$0/ [L,R=301]

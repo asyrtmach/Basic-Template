@@ -7,15 +7,15 @@ rename = require('gulp-rename'), // Добавление .min
 pump = require('pump'), // Вместо .pipe()
 autoprefixer = require('gulp-autoprefixer'),
 browserSync = require('browser-sync'),
-mainBowerFiles = require('main-bower-files'),
+//mainBowerFiles = require('main-bower-files'),
 
 
 //'dev/sass/**/*.+(scss|sass)'
-devCss = 'dev/css/**/*.css', // Css файлы разработки
-devJs = 'dev/js/**/*.js',    // Js файлы разработки
+devCss = 'assets/dev/css/**/*.css', // Css файлы разработки
+devJs = 'assets/dev/js/**/*.js',    // Js файлы разработки
 
-distCss = 'css',    // Директория скомпелированных Css
-distJs = 'js',      // Директория скомпелированных Js
+distCss = 'assets/css',    // Директория скомпелированных Css
+distJs = 'assets/js',      // Директория скомпелированных Js
 fileCss = 'style.css',   // Скомпелированный файл Css
 fileJs = 'main.js',// Скомпелированный файл Js
 min = '.min';            // Имя минифицированного файла
@@ -34,10 +34,10 @@ gulp.task('default', [
 // Сервер +
 gulp.task('browserSync', function () {
 	browserSync({
-		//proxy    : 'my-remote-domain.com',
-		server: {
+		proxy    : 'basic-template',
+		/*server: {
 			baseDir: '.'
-		},
+		},*/
 		notify: false
 	});
 });
@@ -46,7 +46,7 @@ gulp.task('browserSync', function () {
 gulp.task('watch', function () {
     gulp.watch(devCss, ['cssMin']);
     gulp.watch(devJs, ['jsUglify']);
-    gulp.watch('*.+(html|php)', browserSync.reload);
+    gulp.watch('*.+(html|php|htaccess)', browserSync.reload);
 });
 
 // Минификация и объеденение Css
@@ -75,12 +75,6 @@ gulp.task('jsUglify', function (cb) {
     cb
   );
 });
-
-
-
-
-
-
 
 //gulp.task('mainBowerFilesCss', function () {
 	//return gulp.src(mainBowerFiles('**/*.css', {
@@ -115,16 +109,3 @@ gulp.task('jsUglify', function (cb) {
 //var plumber = require('gulp-plumber'); // Ловля ошибок
 //var gutil = require('gulp-util');
 //var watch = require('gulp-watch'); // Можно не подключать присутствует в Gulp по дефолту
-// Webserver + livereload
-/*
-var webserver = require('gulp-webserver');
-gulp.task('webserver', function() {
-  gulp.src('.')
-    .pipe(webserver({
-			//host: '127.0.0.1',
-      livereload: true,
-      //directoryListing: true,
-      open: true
-    }));
-});
-*/
