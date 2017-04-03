@@ -1,4 +1,6 @@
- // JavaScript Document
+/**
+ * ASYRTMACH
+ */
 const   gulp   		 = require('gulp'),
 		concat 		 = require('gulp-concat'),			 // Объединение файлов
 		cssmin 		 = require('gulp-cssmin'),			 // Минификация CSS
@@ -12,7 +14,7 @@ const   gulp   		 = require('gulp'),
 		browserSync  = require('browser-sync').create(),
 
 
-		isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
+		isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development',
 
 		// примеры паттерна поиска
  	     // [
@@ -74,7 +76,7 @@ gulp.task('scripts', function (cb) {
  // удаление папок перед сборкой
  gulp.task('clean', function () {
      return del([
-     	'assets/css',
+     	 'assets/css',
 		 'assets/js'
 	 ]);
  });
