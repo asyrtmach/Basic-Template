@@ -1,39 +1,38 @@
  // JavaScript Document
-var gulp = require('gulp'),
-concat = require('gulp-concat'), // Объединение файлов
-cssmin = require('gulp-cssmin'), // Минификация CSS
-uglify = require('gulp-uglify'), // Минификация js
-rename = require('gulp-rename'), // Добавление .min
-pump = require('pump'), // Вместо .pipe()
-autoprefixer = require('gulp-autoprefixer'),
-browserSync = require('browser-sync'),
-//mainBowerFiles = require('main-bower-files'),
+const   gulp   		 = require('gulp'),
+		concat 		 = require('gulp-concat'),			 // Объединение файлов
+		cssmin 		 = require('gulp-cssmin'),			 // Минификация CSS
+		uglify   	 = require('gulp-uglify'), 			 // Минификация js
+		rename   	 = require('gulp-rename'),			 // Добавление .min
+		pump   		 = require('pump'), 	 			 // Вместо .pipe()
+		del   		 = require('del'), 				     // Удаление
+		autoprefixer = require('gulp-autoprefixer'),
+		sourcemaps   = require('gulp-sourcemaps'),       // Соурс файл
+		gulpIf 		 = require('gulp-if'),               // Условия if
+		browserSync  = require('browser-sync').create(),
 
 
-//'dev/sass/**/*.+(scss|sass)'
-devCss = 'assets/dev/css/**/*.css', // Css файлы разработки
-devJs = 'assets/dev/js/**/*.js',    // Js файлы разработки
+		isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
-distCss = 'assets/css',    // Директория скомпелированных Css
-distJs = 'assets/js',      // Директория скомпелированных Js
-fileCss = 'style.css',   // Скомпелированный файл Css
-fileJs = 'main.js',// Скомпелированный файл Js
-min = '.min';            // Имя минифицированного файла
+		// примеры паттерна поиска
+ 	     // [
+			//  '**/*.html',
+			//  'dev/sass/**/*.{scss,sass}'
+         // ]
+ 		devCss 	= 'assets/_dev/**/*.css', 	// Css файлы разработки
+		devJs 	= 'assets/_dev/**/*.js',    // Js файлы разработки
 
+		distCss = 'assets/css',    			// Директория скомпелированных Css
+		distJs  = 'assets/js',    			// Директория скомпелированных Js
 
-// Запуск тасков по умолчанию при вводе в консоли gulp 
-gulp.task('default', [
-	'cssMin',
-	'jsUglify',
-	'browserSync',
-	'watch'
-	//'mainBowerFilesCss',
-	//'mainBowerFilesJs'
-]);
+		fileCss = 'style.css',   			// Скомпелированный файл Css
+		fileJs  = 'main.js',   				// Скомпелированный файл Js
+		min 	= '.min';            		// Имя минифицированного файла
+
 
 // Сервер +
-gulp.task('browserSync', function () {
-	browserSync({
+gulp.task('browser-sync', function () {
+	browserSync.init({
 		proxy    : 'basic-template',
 		/*server: {
 			baseDir: '.'
@@ -42,39 +41,65 @@ gulp.task('browserSync', function () {
 	});
 });
 
-// Устанавливаем слежение за изменением файлов
-gulp.task('watch', function () {
-    gulp.watch(devCss, ['cssMin']);
-    gulp.watch(devJs, ['jsUglify']);
-    gulp.watch('*.+(html|php|htaccess)', browserSync.reload);
-});
 
 // Минификация и объеденение Css
-gulp.task('cssMin', function () {
-    gulp.src(devCss)
-	//.pipe(plumber())
-	.pipe(autoprefixer())
-	.pipe(cssmin())
-	.pipe(concat(fileCss))
-	.pipe(rename({suffix: min}))
-	.pipe(gulp.dest(distCss))
-	.pipe(browserSync.reload({stream: true}));
+gulp.task('styles', function () {
+	return gulp.src(devCss)
+        .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+		.pipe(autoprefixer())
+		.pipe(cssmin())
+		.pipe(concat(fileCss))
+		.pipe(rename({suffix: min}))
+        .pipe(gulpIf(isDevelopment, sourcemaps.write()))
+		.pipe(gulp.dest(distCss))
+		.pipe(browserSync.stream());
 });
 
-// Минификация и объеденение Js
-gulp.task('jsUglify', function (cb) {
+// Минификация и объеденение Js с помощью pump
+gulp.task('scripts', function (cb) {
   pump([
-        gulp.src(devJs),
-		//plumber(),
-        uglify(),
-    	concat(fileJs),
+		gulp.src(devJs),
+		gulpIf(isDevelopment, sourcemaps.init()),
+		uglify(),
+		concat(fileJs),
 		rename({suffix: min}),
-        gulp.dest(distJs),
-		browserSync.reload({stream: true})
+		gulpIf(isDevelopment, sourcemaps.write()),
+		gulp.dest(distJs),
+		browserSync.stream()
     ],
     cb
   );
 });
+
+ // удаление папок перед сборкой
+ gulp.task('clean', function () {
+     return del([
+     	'assets/css',
+		 'assets/js'
+	 ]);
+ });
+
+ // Устанавливаем слежение за изменением файлов
+ gulp.task('watch', function () {
+     gulp.watch(devCss, ['styles']);
+     gulp.watch(devJs, ['scripts']);
+     gulp.watch('**/*.{html,php}').on('change', browserSync.reload);
+ });
+
+ // Запуск тасков по умолчанию при вводе в консоли gulp
+ gulp.task('build', [
+	 //gulp.series(
+ 	 'clean',
+	  //gulp.parallel(
+	 'styles',
+	 'scripts',
+	 	//),
+     'browser-sync',
+     'watch'
+	 //)
+ ]);
+ // Запуск тасков по умолчанию при вводе в консоли gulp
+ gulp.task('default', ['build']);
 
 //gulp.task('mainBowerFilesCss', function () {
 	//return gulp.src(mainBowerFiles('**/*.css', {
@@ -106,6 +131,5 @@ gulp.task('jsUglify', function (cb) {
 //});
 
 
-//var plumber = require('gulp-plumber'); // Ловля ошибок
 //var gutil = require('gulp-util');
 //var watch = require('gulp-watch'); // Можно не подключать присутствует в Gulp по дефолту

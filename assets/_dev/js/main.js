@@ -25,11 +25,11 @@ $(function() {
 		zindex:"9999999",
 		bouncescroll:!0,
 		touchbehavior:!1
-	})
+	});
 
 	// Маска поля
 	$("#phoneInput").inputmask("+7(999)999-99-99");
 
 	// Подмена mailto
-	$('a.mailto').mailto();
+    $('a.mailto').mailto();
 });
